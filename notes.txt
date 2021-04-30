@@ -1,0 +1,5 @@
+regular DB
+-category have many items
+-items have one category
+Mongo DB
+-refrence beetwen category and items
