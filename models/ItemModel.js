@@ -1,7 +1,7 @@
 import mongoose, {Schema} from 'mongoose';
 
 const itemSchema = new Schema({
-   category:{type: Schema.objectId, ref:'category'},
+   category:{type: Schema.Types.ObjectId, ref:'category'},
    code:{type:String, maxlength:50, required:true},
     name:{type:String, maxlength:80, required:true},
     description:{type:String, maxlength:255},
