@@ -37,6 +37,28 @@ export default {
       next(e);
     }
   },
+  queryByCode: async (req, res, next) => {
+    try {
+      const record = await models.Item.findOne({
+        code: req.query.code,
+        deletedAt: null,
+      }).populate("category", { name: 1 });
+      if (!record) {
+        res.status(400).send({
+          message: "Item not found",
+          descriptions: e,
+        });
+      } else {
+        res.status(200).json(record);
+      }
+    } catch (e) {
+      res.status(500).send({
+        message: "Something went wrong",
+        descriptions: e,
+      });
+      next(e);
+    }
+  },
   list: async (req, res, next) => {
     try {
       let q = req.query.condition;

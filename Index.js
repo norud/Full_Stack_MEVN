@@ -17,7 +17,7 @@ const express = require("express"),
 mongoose.Promise = global.Promise;
 const dbURL = "mongodb://localhost:27017/mevn_db";
 mongoose
-  .connect(dbURL, { useCreateIndex: true, useNewUrlParser: true })
+  .connect(dbURL, { useCreateIndex: true, useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true })
   .then((mongoose) => console.log("connecto to port 27017"))
   .catch((err) => console.log(err));
 
