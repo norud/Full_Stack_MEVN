@@ -15,9 +15,7 @@ const express = require("express"),
 
 //connect to mongosDB
 mongoose.Promise = global.Promise;
-//const dbURL = "mongodb://localhost:27017/mevn_db";
-const dbURL =
-  "mongodb+srv://tuto-udemy-vue-nodejs:GNFHnHhVKFZ1L2Ug@udemyvuenodejs.aiswg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const dbURL = "mongodb://localhost:27017/mevn_db";
 
 mongoose
   .connect(dbURL, {
