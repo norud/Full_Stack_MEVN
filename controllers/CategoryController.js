@@ -123,7 +123,7 @@ export default {
     try {
       const record = await models.Category.findByIdAndUpdate(
         { _id: req.body._id, status: 1 },
-        { status: 0, updatedAt: Date.now(), deletedAt: Date.now() }
+        { status: 0, updatedAt: Date.now() }
       ); //first where, second values to update
       res.status(200).json(record);
     } catch (e) {

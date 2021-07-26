@@ -6,7 +6,7 @@ import path from "path";
 import mongoose from "mongoose"; //bd
 
 //routes
-import router from './routes/index';
+import router from "./routes/index";
 
 /*emasc 5
 const express = require("express"),
@@ -15,9 +15,17 @@ const express = require("express"),
 
 //connect to mongosDB
 mongoose.Promise = global.Promise;
-const dbURL = "mongodb://localhost:27017/mevn_db";
+//const dbURL = "mongodb://localhost:27017/mevn_db";
+const dbURL =
+  "mongodb+srv://tuto-udemy-vue-nodejs:GNFHnHhVKFZ1L2Ug@udemyvuenodejs.aiswg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
 mongoose
-  .connect(dbURL, { useCreateIndex: true, useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true })
+  .connect(dbURL, {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true,
+  })
   .then((mongoose) => console.log("connecto to port 27017"))
   .catch((err) => console.log(err));
 
@@ -38,12 +46,11 @@ app.use(express.static(path.join(__dirname, "public")));
 //.project public path
 
 //api endpoints
-app.use('/api', router);
+app.use("/api", router);
 
 //ports
-app.set("port", process.env.PORT || 3000);
+app.set("port", process.env.PORT || 4000);
 
 app.listen(app.get("port"), () => {
   console.log("server working on port " + app.get("port"));
-  
 });

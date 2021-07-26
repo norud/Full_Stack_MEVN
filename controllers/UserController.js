@@ -153,7 +153,7 @@ export default {
     try {
       const record = await models.User.findByIdAndUpdate(
         { _id: req.body._id },
-        { status: 0, updatedAt: Date.now(), deletedAt: Date.now() }
+        { status: 0, updatedAt: Date.now() }
       ); //first where, second values to update
       res.status(200).json(record);
     } catch (e) {
@@ -166,13 +166,11 @@ export default {
   },
   login: async (req, res, next) => {
     try {
-      let user = await models.User.findOne(
-        {
-          email: req.body.email,
-          status: 1,//will be optional
-          //deletedAt: null
-        }
-      );
+      let user = await models.User.findOne({
+        email: req.body.email,
+        status: 1, //will be optional
+        //deletedAt: null
+      });
 
       if (user) {
         //check if user is active
@@ -197,10 +195,11 @@ export default {
           );
           if (match_password) {
             //make token
-            let user_token = await token.encode(user._id);
+            let user_token = await token.encode(user._id, user.rol, user.email);
             res.status(200).json({ user, user_token });
           } else {
             res.status(404).send({
+              status: 404,
               message: "Password incorrect",
               descriptions: "Check the information and try again",
             });

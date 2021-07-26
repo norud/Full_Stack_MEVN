@@ -132,7 +132,7 @@ export default {
     try {
       const record = await models.Register.findByIdAndUpdate(
         { _id: req.body._id, status: 1, deletedAt: null },
-        { status: 0, updatedAt: Date.now(), deletedAt: Date.now() }
+        { status: 0, updatedAt: Date.now() }
       ); //first where, second values to update
       if (record.status == 1 && record.deletedAt == null) {
         //update stock
@@ -189,7 +189,7 @@ export default {
       console.log(start);
       //$or:[{'name':RegExp(q,'i')}, {'description':RegExp(q,'i')}] = search where  name and description like q
       const record = await models.Register.find({
-        "createdAt": { $gte: start, $lt: end },
+        createdAt: { $gte: start, $lt: end },
       })
         .populate("user", { name: 1 })
         .populate("people", { name: 1 })

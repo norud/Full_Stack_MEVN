@@ -4,7 +4,6 @@ import commonService from "../services/CommonService";
 export default {
   add: async (req, res, next) => {
     try {
-      
       const record = await models.People.create(req.body);
       res.status(200).json(record);
     } catch (e) {
@@ -18,12 +17,10 @@ export default {
   },
   queryById: async (req, res, next) => {
     try {
-      const record = await models.People.findOne(
-        {
-          _id: req.query._id,
-          deletedAt: null,
-        }
-      );
+      const record = await models.People.findOne({
+        _id: req.query._id,
+        deletedAt: null,
+      });
       if (!record) {
         res.status(400).send({
           message: "Info not found",
@@ -44,12 +41,10 @@ export default {
     try {
       let q = req.query.condition;
       //$or:[{'name':RegExp(q,'i')}, {'description':RegExp(q,'i')}] = search where  name and description like q
-      const record = await models.People.find(
-        {
-          $or: [{ name: RegExp(q, "i") }, { email: RegExp(q, "i") }],
-          deletedAt: null,
-        }
-      ).sort({ name: 1 }); //desc = -1, asc = 1
+      const record = await models.People.find({
+        $or: [{ name: RegExp(q, "i") }, { email: RegExp(q, "i") }],
+        deletedAt: null,
+      }).sort({ name: 1 }); //desc = -1, asc = 1
       if (Object.entries(record).length === 0) {
         res.status(200).send({
           message: "There is not records",
@@ -70,12 +65,11 @@ export default {
     try {
       let q = req.query.condition;
       //$or:[{'name':RegExp(q,'i')}, {'description':RegExp(q,'i')}] = search where  name and description like q
-      const record = await models.People.find(
-        {
-          $or: [{ name: RegExp(q, "i") }, { email: RegExp(q, "i") }],
-          deletedAt: null, person_type: 'Customer'
-        }
-      ).sort({ name: 1 }); //desc = -1, asc = 1
+      const record = await models.People.find({
+        $or: [{ name: RegExp(q, "i") }, { email: RegExp(q, "i") }],
+        deletedAt: null,
+        person_type: "Customer",
+      }).sort({ name: 1 }); //desc = -1, asc = 1
       if (Object.entries(record).length === 0) {
         res.status(200).send({
           message: "There is not records",
@@ -96,12 +90,11 @@ export default {
     try {
       let q = req.query.condition;
       //$or:[{'name':RegExp(q,'i')}, {'description':RegExp(q,'i')}] = search where  name and description like q
-      const record = await models.People.find(
-        {
-          $or: [{ name: RegExp(q, "i") }, { email: RegExp(q, "i") }],
-          deletedAt: null, person_type: 'Provider'
-        }
-      ).sort({ name: 1 }); //desc = -1, asc = 1
+      const record = await models.People.find({
+        $or: [{ name: RegExp(q, "i") }, { email: RegExp(q, "i") }],
+        deletedAt: null,
+        person_type: "Provider",
+      }).sort({ name: 1 }); //desc = -1, asc = 1
       if (Object.entries(record).length === 0) {
         res.status(200).send({
           message: "There is not records",
@@ -124,7 +117,7 @@ export default {
       const updatedFields = {};
       Object.keys(req.body).forEach((key) => {
         if (!commonService.isEmpty(req.body[key]) && key != "_id") {
-            updatedFields[key] = req.body[key];          
+          updatedFields[key] = req.body[key];
         }
       });
 
@@ -178,7 +171,7 @@ export default {
     try {
       const record = await models.People.findByIdAndUpdate(
         { _id: req.body._id },
-        { status: 0, updatedAt: Date.now(), deletedAt: Date.now() }
+        { status: 0, updatedAt: Date.now() }
       ); //first where, second values to update
       res.status(200).json(record);
     } catch (e) {

@@ -93,8 +93,7 @@ export default {
       //verify empty fileds
       const updatedFields = {};
       Object.keys(req.body).forEach((key) => {
-          
-        if ( !commonService.isEmpty(req.body[key]) && key != '_id') {
+        if (!commonService.isEmpty(req.body[key]) && key != "_id") {
           updatedFields[key] = req.body[key];
         }
       });
@@ -106,7 +105,7 @@ export default {
           updatedAt: Date.now(),
         }
       ); //first where, second values to update
-      
+
       res.status(200).json(record);
     } catch (e) {
       res.status(500).send({
@@ -150,7 +149,7 @@ export default {
     try {
       const record = await models.Item.findByIdAndUpdate(
         { _id: req.body._id, status: 1 },
-        { status: 0, updatedAt: Date.now(), deletedAt: Date.now() }
+        { status: 0, updatedAt: Date.now() }
       ); //first where, second values to update
       res.status(200).json(record);
     } catch (e) {
@@ -161,5 +160,4 @@ export default {
       next(e);
     }
   },
-
 };

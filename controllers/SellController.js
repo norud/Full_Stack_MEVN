@@ -85,7 +85,7 @@ export default {
         { deletedAt: 0 } //dont show deletedAt
       )
         .populate("user", { name: 1 })
-        .populate("people", { name: 1 })
+        .populate("people", { name: 1, phone: 1, email: 1, document_number: 1 })
         .sort({ createdAt: -1 }); //desc = -1, asc = 1
       if (Object.entries(record).length === 0) {
         res.status(200).send({
@@ -132,7 +132,7 @@ export default {
     try {
       const record = await models.Sell.findByIdAndUpdate(
         { _id: req.body._id, status: 1, deletedAt: null },
-        { status: 0, updatedAt: Date.now(), deletedAt: Date.now() }
+        { status: 0, updatedAt: Date.now() }
       ); //first where, second values to update
       if (record.status == 1 && record.deletedAt == null) {
         //update stock
@@ -153,25 +153,24 @@ export default {
   },
   lastTwelveMonths: async (req, res, next) => {
     try {
-      const record = await models.Sell.aggregate(
-        [
-          {
-            $group: {
-              _id:{
-                month:{$month:"$createdAt"},
-                year: {$year:"$createdAt"}
-              },
-              total:{$sum:"$total"},
-              number:{$sum:1}
-            }
+      const record = await models.Sell.aggregate([
+        {
+          $group: {
+            _id: {
+              month: { $month: "$createdAt" },
+              year: { $year: "$createdAt" },
+            },
+            total: { $sum: "$total" },
+            number: { $sum: 1 },
           },
-          {
-            $sort: {
-              "_id.year":-1, "_id.month":-1//-1= desc, 1=asc
-            }
-          }
-        ]
-      ).limit(12);
+        },
+        {
+          $sort: {
+            "_id.year": -1,
+            "_id.month": -1, //-1= desc, 1=asc
+          },
+        },
+      ]).limit(12);
 
       //response
       res.status(200).json(record);
@@ -189,7 +188,7 @@ export default {
       let end = req.query.end;
       //$or:[{'name':RegExp(q,'i')}, {'description':RegExp(q,'i')}] = search where  name and description like q
       const record = await models.Sell.find({
-        "createdAt": { $gte: start, $lt: end },
+        createdAt: { $gte: start, $lt: end },
       })
         .populate("user", { name: 1 })
         .populate("people", { name: 1 })
